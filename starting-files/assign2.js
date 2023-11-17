@@ -2,7 +2,7 @@
 
 
 /* url of song api --- https versions hopefully a little later this semester */	
-const api = 'http://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php';
+// const api = 'http://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php';
 // window.localStorage
 
 const filteredArray=[];
@@ -68,6 +68,11 @@ function addGenre(){
   
 }
 addGenre();
+function sortTable(){
+   const table = document.querySelectorAll("#songTable");
+   // const row = document.querySelectorAll(#songTable );
+
+}
 
 
 function getNodes(){
@@ -119,12 +124,25 @@ function getNodes(){
 
 
 function printTable() {
-   const table = document.querySelector("#songs-table");
-   const check = document.querySelectorAll("table tr th");
-   console.log(check);
-   console.log(table);
 
-   if (check.length == 0) {
+
+
+   
+
+   const table = document.querySelectorAll("#songTable table");
+   
+   // const table = documen
+//    console.log(divSongT);
+   
+
+   
+// console.log(divSongT);
+   // const check = document.querySelectorAll("#songTable table tbody tr");
+   // let table 
+
+
+      let tableMainHead = document.createElement('thead');
+      table.appendChild(tableMainHead);
       let tableRow = document.createElement('tr');
       let tableHead = document.createElement('th');
       tableHead.textContent = 'Title';
@@ -143,13 +161,26 @@ function printTable() {
       tableRow.appendChild(tableHead);
 
       tableHead = document.createElement('th');
-      tableHead.textContent = '&&&&&&&&&&&&';
-      tableRow.appendChild(tableHead);
-      table.appendChild(tableRow);
+      const button = document.createElement('button');
+      button.textContent ="Add All";
+      tableRow.appendChild(button);
 
+      tableMainHead.appendChild(tableRow);
+      table.appendChild(tableMainHead);
+
+      
+     
+
+let stopTable=filteredArray.length;
+console.log(stopTable);
+console.log(filteredArray.length);
+const tableBody = document.createElement("tbody");
 
       for (let i = 0; i < filteredArray.length; i++) {
-
+         // if(stopTable == i){
+         // const tableBody = document.createElement("tbody");
+         // table.appendChild(tableBody);
+         // }
 
          tableRow = document.createElement('tr');
          let tableColumn = document.createElement('td');
@@ -167,43 +198,81 @@ function printTable() {
          tableColumn = document.createElement('td');
          tableColumn.textContent = filteredArray[i].details.popularity;
          tableRow.appendChild(tableColumn);
-         table.appendChild(tableRow);
+         tableColumn = document.createElement('button');
+         tableColumn.textContent ="Add song to Playlist";
+         tableRow.appendChild(tableColumn);
+         
+         tableBody.appendChild(tableRow);
+      table.appendChild(tableBody);
 
+      //    tableBody = document.createElement("tbody");
+      //    tableBody.appendChild(tableRow);
+      //   table.appendChild(tableBody); 
+        console.log(filteredArray.length);
+          if (filteredArray.length > 1 && (i == (filteredArray.length-1))){
+         
+         //  table.appendChild(tableBody);
+          }
 
+         // if (i == (filteredArray-1)){
+         //    table.appendChild(tableBody);
+         // }
 
       }
-   } else {
-      const deleteChilds = document.querySelectorAll("table tr");
-      if (deleteChilds.length > 0) {
-         for (let i = 1; i < deleteChilds.length; i++) {
-            deleteChilds[i].remove();
-         }
-      }
-      for (let i = 0; i < filteredArray.length; i++) {
+   // } else {
+   //    const deleteChilds = document.querySelectorAll("#songTable table tbody tr");
+   //    console.log(deleteChilds);
+   //    if (deleteChilds.length > 0) {
+   //       for (let i = 0; i < deleteChilds.length; i++) {
+   //          if (i == deleteChilds.length){
+   //             console.log("Dsadsa");
+   //          } else {
+   //             deleteChilds[i].remove();
+   //          }
+            
+   //       }
+   //    }
+
+   //    for (let i = 0; i < filteredArray.length; i++) {
 
 
-         tableRow = document.createElement('tr');
-         let tableColumn = document.createElement('td');
-         tableColumn.textContent = filteredArray[i].title;
-         tableRow.appendChild(tableColumn);
-         tableColumn = document.createElement('td');
-         tableColumn.textContent = filteredArray[i].artist.name;
-         tableRow.appendChild(tableColumn);
-         tableColumn = document.createElement('td');
-         tableColumn.textContent = filteredArray[i].year;
-         tableRow.appendChild(tableColumn);
-         tableColumn = document.createElement('td');
-         tableColumn.textContent = filteredArray[i].genre.name;
-         tableRow.appendChild(tableColumn);
-         tableColumn = document.createElement('td');
-         tableColumn.textContent = filteredArray[i].details.popularity;
-         tableRow.appendChild(tableColumn);
-         table.appendChild(tableRow);
+   //       tableRow = document.createElement('tr');
+   //       let tableColumn = document.createElement('td');
+   //       tableColumn.textContent = filteredArray[i].title;
+   //       tableRow.appendChild(tableColumn);
+   //       tableColumn = document.createElement('td');
+   //       tableColumn.textContent = filteredArray[i].artist.name;
+   //       tableRow.appendChild(tableColumn);
+   //       tableColumn = document.createElement('td');
+   //       tableColumn.textContent = filteredArray[i].year;
+   //       tableRow.appendChild(tableColumn);
+   //       tableColumn = document.createElement('td');
+   //       tableColumn.textContent = filteredArray[i].genre.name;
+   //       tableRow.appendChild(tableColumn);
+   //       tableColumn = document.createElement('td');
+   //       tableColumn.textContent = filteredArray[i].details.popularity;
+   //       tableRow.appendChild(tableColumn);
+         
+   //       tableColumn = document.createElement('button');
+   //       tableColumn.textContent ="Add song to Playlist";
+   //       tableRow.appendChild(tableColumn);
+         
+         
+
+   //    //    tableBody = document.createElement("tbody");
+   //    //    tableBody.appendChild(tableRow);
+   //    //   table.appendChild(tableBody); 
+   //      console.log(filteredArray.length);
+   //        if ( i == (filteredArray.length-1)){
+         
+   //       //  table.appendChild(tableBody);
+   //        }
 
 
-
-      }
-   }
+   //    }
+   //    tableBody.appendChild(tableRow);
+   //    table.appendChild(tableBody);
+ 
 }
 
 
