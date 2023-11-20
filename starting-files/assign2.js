@@ -1,11 +1,8 @@
-
-
-
-/* url of song api --- https versions hopefully a little later this semester */	
+/* url of song api --- https versions hopefully a little later this semester */
 // const api = 'http://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php';
 // window.localStorage
 
-const filteredArray=[];
+const filteredArray = [];
 
 
 // const data = fetch(api).then(res => res.json());
@@ -18,7 +15,7 @@ const filteredArray=[];
 // let data_serialized = JSON.stringify(data);
 
 
- 
+
 
 /* note: you may get a CORS error if you try fetching this locally (i.e., directly from a
    local file). To work correctly, this needs to be tested on a local web server.  
@@ -32,323 +29,340 @@ const songs = JSON.parse(songsArray);
 const artist = JSON.parse(artistData);
 const generes = JSON.parse(generesData);
 
-// console.log(tempArray);
-function searchTitle(title) {
-const rtnStmt = songs.filter(item => item.genre.id === title );
-return rtnStmt;
-}
-console.log(searchTitle(110));
 
-function addArtist() {
-   let empty = document.createElement("option");
-   empty.value = "";
-   empty.textContent = "Select a Artist";
-   document.querySelector("#artistSearch").appendChild(empty);
+
+document.addEventListener("DOMContentLoaded", function() {
+   document.querySelector("#artistSearch").style.display = "none";
+   document.querySelector("#titleSearch").style.display = "none";
+   document.querySelector("#genreSearch").style.display = "none";
+    function removeTable() {
+        const tableDiv = document.querySelectorAll("#songTable");
+        let checkTable = document.querySelector("#songTable table") != undefined;
+        console.log(tableDiv.length);
+        if (checkTable) {
+
+            if (tableDiv.length = 1) {
+                for (let i = 0; i < tableDiv.length; i++) {
+                    tableDiv[i].remove();
+                }
+            }
+        }
+
+    }
+   //  const radioButtons = document.querySelectorAll('input[name="searchFilter"]');
+    const clearButton = document.querySelector("#clearButton");
+    const titleFilter = document.querySelector("#titleFilter");
+    const artistFilter = document.querySelector("#artistFilter");
+    const genereFilter = document.querySelector("#genreFilter");
+    const genereSearchFilter = document.querySelector("#genreSearch");
+    const titleSearchFilter = document.querySelector("#titleSearch");
+    const artistSearchFilter = document.querySelector("#artistSearch");
+    const buttonFilter = document.querySelector("#filterButton");
+
+
+    titleFilter.addEventListener("click", function() {
+        titleSearchFilter.style.display = "block";;
+        artistFilter.setAttribute("disabled", "");
+        artistSearchFilter.style.display = "none";
+        genereFilter.setAttribute("disabled", "");
+        genereSearchFilter.style.display = "none";
+
+
+        buttonFilter.addEventListener("click", function() {
+            getNodes();
+        });
+    })
+
+    artistFilter.addEventListener("click", function() {
+      artistSearchFilter.style.display = "block"
+        genereFilter.setAttribute("disabled", "");
+        genereSearchFilter.style.display = "none";
+
+        genereFilter.setAttribute("disabled", "");
+        genereSearchFilter.style.display = "none";
+        titleFilter.setAttribute("disabled", "");
+        titleSearchFilter.style.display = "none";
+
+
+        artistSearchFilter.removeAttribute("disabled");
+        titleFilter.setAttribute("disabled", "");
+        titleSearchFilter.style.display = "none";
+
+        buttonFilter.addEventListener("click", function() {
+            getNodes();
+        });
+
+    
+
+    });
+
+    genereFilter.addEventListener("click", function() {
+      genereSearchFilter.style.display = "block";
+        genereSearchFilter.removeAttribute("disabled");
+        titleFilter.setAttribute("disabled", "");
+        titleSearchFilter.style.display = "none";
+        artistFilter.setAttribute("disabled", "");
+        artistSearchFilter.style.display = "none";
+
+        buttonFilter.addEventListener("click", function() {
+            getNodes();
+        });
+
+    })
+
+    clearButton.addEventListener("click", function() {
+
+        artistFilter.removeAttribute("disabled");
+        artistFilter.checked=false;
+        titleFilter.removeAttribute("disabled");
+        titleFilter.checked=false;
+        genereFilter.removeAttribute("disabled");
+        genereFilter.checked=false;
+         genereSearchFilter.style.display = "none";
+         titleSearchFilter.style.display = "none";
+        artistSearchFilter.style.display = "none";
+        removeTable();
+
+    });
+
+
+
+
  
-         for(let i = 0; i<artist.length; i++){
+
+
+    function addArtist() {
+        let empty = document.createElement("option");
+        empty.value = "";
+        empty.textContent = "Select a Artist";
+        document.querySelector("#artistSearch").appendChild(empty);
+
+        for (let i = 0; i < artist.length; i++) {
             let option = document.createElement("option");
             option.textContent = artist[i].name;
             option.value = artist[i].id;
             document.querySelector("#artistSearch").appendChild(option);
-         }
-}
-addArtist();
-function addGenre(){
-   
-   let empty = document.createElement("option");
-   empty.value = "";
-   empty.textContent = "Select a Genere";
-   document.querySelector("#genreSearch").appendChild(empty);
-         for(let i = 0; i<generes.length; i++){
+        }
+    }
+    addArtist();
+
+    function addGenre() {
+
+        let empty = document.createElement("option");
+        empty.value = "";
+        empty.textContent = "Select a Genere";
+        document.querySelector("#genreSearch").appendChild(empty);
+        for (let i = 0; i < generes.length; i++) {
             let option = document.createElement("option");
             option.textContent = generes[i].name;
             option.value = generes[i].id;
             document.querySelector("#genreSearch").appendChild(option);
-         }
-  
-}
-addGenre();
-function sortTable(){
-   const table = document.querySelectorAll("#songTable");
-   // const row = document.querySelectorAll(#songTable );
+        }
 
-}
+    }
+    addGenre();
 
 
-function getNodes(){
-   const radioButtons = document.querySelectorAll('input[name="searchFilter"]');
 
-   const genereSearchFilter = document.querySelector("#genreSearch");
-   const titleSearchFilter = document.querySelector("#titleSearch");
-   const artistSearchFilter = document.querySelector("#artistSearch");
- 
-   
-   for(let i = 0; i<radioButtons.length; i++){
-      if (radioButtons[i].disabled == false){
-         if(radioButtons[i].value=="artist"){
-            if(filteredArray.length>0){
-               filteredArray.splice(0,filteredArray.length);
+    function getNodes() {
+      removeTable();
+        const radioButtons = document.querySelectorAll('input[name="searchFilter"]');
+
+        const genereSearchFilter = document.querySelector("#genreSearch");
+        const titleSearchFilter = document.querySelector("#titleSearch");
+        const artistSearchFilter = document.querySelector("#artistSearch");
+
+
+        for (let i = 0; i < radioButtons.length; i++) {
+            if (radioButtons[i].disabled == false) {
+                
+
+                if (radioButtons[i].value == "artist") {
+                    if (filteredArray.length > 0) {
+                        filteredArray.splice(0, filteredArray.length);
+                    }
+
+
+                    let choosenValue = artistSearchFilter.options[artistSearchFilter.selectedIndex].value;
+
+
+                    songs.filter(item => item.artist.id == choosenValue).forEach((item) => {
+                        filteredArray.push(item)
+                    });
+                    removeTable();
+                   printTable();
+
+
+
+                } else if (radioButtons[i].value == "genre") {
+                    let choosenValue = genereSearchFilter.options[genereSearchFilter.selectedIndex].value;
+
+                    songs.filter(item => item.genre.id == choosenValue).forEach((item) => {
+                        filteredArray.push(item)
+                    });
+                    removeTable();
+                  printTable();
+
+
+
+                } else {
+                    let choosenValue = titleSearchFilter.value;
+
+                    songs.filter(item => item.title == choosenValue).forEach((item) => {
+                        filteredArray.push(item)
+                    });
+                    removeTable();
+                   printTable();
+
+
+                }
             }
-            
-           let choosenValue = artistSearchFilter.options[artistSearchFilter.selectedIndex].value;
-          
-            
-            songs.filter(item => item.artist.id == choosenValue).forEach((item)=>{filteredArray.push(item)});
-            printTable();
-            
-            
-            
-         } else if (radioButtons[i].value=="genre"){
-            let choosenValue = genereSearchFilter.options[genereSearchFilter.selectedIndex].value;
-            
-            songs.filter(item => item.genre.id == choosenValue).forEach((item)=>{filteredArray.push(item)});
-            printTable();
-            
-           
-            
-         } else {
-            let choosenValue = titleSearchFilter.value;
-
-            songs.filter(item => item.title == choosenValue ).forEach((item)=>{filteredArray.push(item)});
-
-            printTable();
-
-
-            
-            }
-         }
-      }
-    
-   
-} 
-
-
-function printTable() {
+        }
+    }
 
 
 
-   
+    function sorter() {
+        const tableHeaders = document.querySelectorAll("#songTable th");
+        const sortValue = document.querySelector("#sortingIndicator");
+        sortValue.style.color = "red";
+        sortValue.style.textAlign = "center";
+        console.log(sortValue);
+        tableHeaders.forEach(column => {
+            column.addEventListener('click', () => {
 
-   const table = document.querySelectorAll("#songTable table");
-   
-   // const table = documen
-//    console.log(divSongT);
-   
+                if (column.textContent == "Title") {
 
-   
-// console.log(divSongT);
-   // const check = document.querySelectorAll("#songTable table tbody tr");
-   // let table 
+                    for (let i = 0; i < filteredArray.length; i++) {
+                        filteredArray.sort(function(a, b) {
+                            return a.title.charCodeAt(0) - b.title.charCodeAt(0);
+                        });
+                    }
 
+                    printTable();
+                    sortValue.textContent = "Sorted by: Title";
 
-      let tableMainHead = document.createElement('thead');
-      table.appendChild(tableMainHead);
-      let tableRow = document.createElement('tr');
-      let tableHead = document.createElement('th');
-      tableHead.textContent = 'Title';
-      tableRow.appendChild(tableHead);
-      tableHead = document.createElement('th');
-      tableHead.textContent = 'Artist';
-      tableRow.appendChild(tableHead);
-      tableHead = document.createElement('th');
-      tableHead.textContent = 'Year';
-      tableRow.appendChild(tableHead);
-      tableHead = document.createElement('th');
-      tableHead.textContent = 'Genre';
-      tableRow.appendChild(tableHead);
-      tableHead = document.createElement('th');
-      tableHead.textContent = 'Popularity';
-      tableRow.appendChild(tableHead);
+                } else if (column.textContent == "Artist") {
 
-      tableHead = document.createElement('th');
-      const button = document.createElement('button');
-      button.textContent ="Add All";
-      tableRow.appendChild(button);
+                    for (let i = 0; i < filteredArray.length; i++) {
 
-      tableMainHead.appendChild(tableRow);
-      table.appendChild(tableMainHead);
+                        filteredArray.sort(function(a, b) {
+                            return a.artist.name.charCodeAt(0) - b.artist.name.charCodeAt(0);
+                        });
+                        sortValue.textContent = "Sorted by: Artist";
+                    }
+                    printTable();
+                } else if (column.textContent == "Genre") {
 
-      
-     
+                    for (let i = 0; i < filteredArray.length; i++) {
 
-let stopTable=filteredArray.length;
-console.log(stopTable);
-console.log(filteredArray.length);
-const tableBody = document.createElement("tbody");
+                        filteredArray.sort(function(a, b) {
+                            return a.genre.name.charCodeAt(0) - b.genre.name.charCodeAt(0);
+                        });
+                        sortValue.textContent = "Sorted by: Genre";
+                    }
+                    printTable();
+                } else if (column.textContent == "Year") {
+                    for (let i = 0; i < filteredArray.length; i++) {
+                        filteredArray.sort(function(a, b) {
+                            return a.year - b.year;
+                        });
 
-      for (let i = 0; i < filteredArray.length; i++) {
-         // if(stopTable == i){
-         // const tableBody = document.createElement("tbody");
-         // table.appendChild(tableBody);
-         // }
+                    }
+                    printTable();
+                    sortValue.textContent = "Sorted by: Year";
 
-         tableRow = document.createElement('tr');
-         let tableColumn = document.createElement('td');
-         tableColumn.textContent = filteredArray[i].title;
-         tableRow.appendChild(tableColumn);
-         tableColumn = document.createElement('td');
-         tableColumn.textContent = filteredArray[i].artist.name;
-         tableRow.appendChild(tableColumn);
-         tableColumn = document.createElement('td');
-         tableColumn.textContent = filteredArray[i].year;
-         tableRow.appendChild(tableColumn);
-         tableColumn = document.createElement('td');
-         tableColumn.textContent = filteredArray[i].genre.name;
-         tableRow.appendChild(tableColumn);
-         tableColumn = document.createElement('td');
-         tableColumn.textContent = filteredArray[i].details.popularity;
-         tableRow.appendChild(tableColumn);
-         tableColumn = document.createElement('button');
-         tableColumn.textContent ="Add song to Playlist";
-         tableRow.appendChild(tableColumn);
-         
-         tableBody.appendChild(tableRow);
-      table.appendChild(tableBody);
+                } else {
+                    for (let i = 0; i < filteredArray.length; i++) {
+                        filteredArray.sort(function(a, b) {
+                            return -(a.details.popularity - b.details.popularity);
+                        });
+                    }
+                    printTable();
 
-      //    tableBody = document.createElement("tbody");
-      //    tableBody.appendChild(tableRow);
-      //   table.appendChild(tableBody); 
-        console.log(filteredArray.length);
-          if (filteredArray.length > 1 && (i == (filteredArray.length-1))){
-         
-         //  table.appendChild(tableBody);
-          }
+                    sortValue.textContent = "Sorted by: Popularity";
 
-         // if (i == (filteredArray-1)){
-         //    table.appendChild(tableBody);
-         // }
+                }
+            });
+        });
+    }
 
-      }
-   // } else {
-   //    const deleteChilds = document.querySelectorAll("#songTable table tbody tr");
-   //    console.log(deleteChilds);
-   //    if (deleteChilds.length > 0) {
-   //       for (let i = 0; i < deleteChilds.length; i++) {
-   //          if (i == deleteChilds.length){
-   //             console.log("Dsadsa");
-   //          } else {
-   //             deleteChilds[i].remove();
-   //          }
-            
-   //       }
-   //    }
+    function printTable() {
 
-   //    for (let i = 0; i < filteredArray.length; i++) {
+        const songTable = document.createElement("div");
+        songTable.setAttribute("id", "songTable");
+        songTable.style.placeSelf = "center";
+        //Query to see if the table exists
+        removeTable();
 
+        const table = document.createElement("table");
+        let tableMainHead = document.createElement("thead");
+        console.log(tableMainHead);
+        table.appendChild(tableMainHead);
+        let tableRow = document.createElement('tr');
+        let tableHead = document.createElement('th');
+        tableHead.innerHTML = 'Title';
+        tableRow.appendChild(tableHead);
+        tableHead = document.createElement('th');
+        tableHead.innerHTML = 'Artist';
+        tableRow.appendChild(tableHead);
+        tableHead = document.createElement('th');
+        tableHead.innerHTML = 'Year';
+        tableRow.appendChild(tableHead);
+        tableHead = document.createElement('th');
+        tableHead.innerHTML = 'Genre';
+        tableRow.appendChild(tableHead);
+        tableHead = document.createElement('th');
+        tableHead.innerHTML = 'Popularity';
+        tableRow.appendChild(tableHead);
 
-   //       tableRow = document.createElement('tr');
-   //       let tableColumn = document.createElement('td');
-   //       tableColumn.textContent = filteredArray[i].title;
-   //       tableRow.appendChild(tableColumn);
-   //       tableColumn = document.createElement('td');
-   //       tableColumn.textContent = filteredArray[i].artist.name;
-   //       tableRow.appendChild(tableColumn);
-   //       tableColumn = document.createElement('td');
-   //       tableColumn.textContent = filteredArray[i].year;
-   //       tableRow.appendChild(tableColumn);
-   //       tableColumn = document.createElement('td');
-   //       tableColumn.textContent = filteredArray[i].genre.name;
-   //       tableRow.appendChild(tableColumn);
-   //       tableColumn = document.createElement('td');
-   //       tableColumn.textContent = filteredArray[i].details.popularity;
-   //       tableRow.appendChild(tableColumn);
-         
-   //       tableColumn = document.createElement('button');
-   //       tableColumn.textContent ="Add song to Playlist";
-   //       tableRow.appendChild(tableColumn);
-         
-         
+        tableHead = document.createElement('th');
+        let button = document.createElement('button');
+        button.innerHTML = "Add All";
+        tableRow.appendChild(button);
 
-   //    //    tableBody = document.createElement("tbody");
-   //    //    tableBody.appendChild(tableRow);
-   //    //   table.appendChild(tableBody); 
-   //      console.log(filteredArray.length);
-   //        if ( i == (filteredArray.length-1)){
-         
-   //       //  table.appendChild(tableBody);
-   //        }
+        tableMainHead.appendChild(tableRow);
+        table.appendChild(tableMainHead);
+        console.log(table);
+
+        let tableBody = document.createElement("tbody");
+
+        for (let i = 0; i < filteredArray.length; i++) {
 
 
-   //    }
-   //    tableBody.appendChild(tableRow);
-   //    table.appendChild(tableBody);
- 
-}
+            tableRow = document.createElement('tr');
+            let tableColumn = document.createElement('td');
+            tableColumn.textContent = filteredArray[i].title;
+            tableRow.appendChild(tableColumn);
+            tableColumn = document.createElement('td');
+            tableColumn.textContent = filteredArray[i].artist.name;
+            tableRow.appendChild(tableColumn);
+            tableColumn = document.createElement('td');
+            tableColumn.textContent = filteredArray[i].year;
+            tableRow.appendChild(tableColumn);
+            tableColumn = document.createElement('td');
+            tableColumn.textContent = filteredArray[i].genre.name;
+            tableRow.appendChild(tableColumn);
+            tableColumn = document.createElement('td');
+            tableColumn.textContent = filteredArray[i].details.popularity;
+            tableRow.appendChild(tableColumn);
+            tableColumn = document.createElement('button');
+            tableColumn.textContent = "Add song to Playlist";
+            tableRow.appendChild(tableColumn);
+            tableBody.appendChild(tableRow);
+            table.appendChild(tableBody);
+        }
+
+        document.querySelector(".basicSongWrapper").appendChild(songTable).appendChild(table);
 
 
-document.addEventListener("DOMContentLoaded", function(){
-   const radioButtons = document.querySelectorAll('input[name="searchFilter"]');
-   const clearButton = document.querySelector("#clear-btn");
-   const titleFilter = document.querySelector("#titleFilter");
-   const artistFilter = document.querySelector("#artistFilter");
-   const genereFilter = document.querySelector("#genreFilter");
-   const genereSearchFilter = document.querySelector("#genreSearch");
-   const titleSearchFilter = document.querySelector("#titleSearch");
-   const artistSearchFilter = document.querySelector("#artistSearch");
-   
 
-   titleFilter.addEventListener("click", function(){
+        sorter();
 
-      titleSearchFilter.removeAttribute('disabled');
-      artistFilter.setAttribute("disabled","");
-      artistSearchFilter.setAttribute("disabled","");
-      genereFilter.setAttribute("disabled","");
-      genereSearchFilter.setAttribute("disabled","");
-      titleSearchFilter.addEventListener("change", function(){
-         getNodes();
-         console.log();
-      })
-      
-   })
+    }
 
-   artistFilter.addEventListener("click", function(){
-      artistSearchFilter.removeAttribute("disabled");
-      titleFilter.setAttribute("disabled","");
-      titleSearchFilter.setAttribute("disabled","");
-      genereFilter.setAttribute("disabled","");
-      genereSearchFilter.setAttribute("disabled","");
-      artistSearchFilter.addEventListener("change", function(){
-         // console.log(artistSearchFilter.options[artistSearchFilter.selectedIndex].value);
-         getNodes();
-         
-      });
-      
-   })
-
-   genereFilter.addEventListener("click", function(){
-      genereSearchFilter.removeAttribute("disabled");
-      titleFilter.setAttribute("disabled","");
-      titleSearchFilter.setAttribute("disabled","");
-      artistFilter.setAttribute("disabled","");
-      artistSearchFilter.setAttribute("disabled","");
-      genereSearchFilter.addEventListener("change", function(){
-         getNodes();
-      })
-   })
-
-   clearButton.addEventListener("click", function(){
-      
-      artistFilter.removeAttribute("disabled");
-      titleFilter.removeAttribute("disabled");
-      genereFilter.removeAttribute("disabled");
-      genereSearchFilter.removeAttribute("disabled");
-      titleSearchFilter.removeAttribute("disabled");
-      artistSearchFilter.removeAttribute("disabled");
-      genereSearchFilter.selectedIndex=0;
-      artistSearchFilter.selectedIndex=0;
-      titleSearchFilter.value="";
 
    });
-
-
-
-
-
-
-})
-
-
-
 
 
 
@@ -365,7 +379,7 @@ function getSongIdByTitle(title) {
 // Function to handle button click and add song ID to the favorites array
 function handleAddButtonClick() {
     // Read the song title from an input field (replace 'yourInputId' with the actual input field ID)
-    const songTitleInput = document.getElementById('yourInputId');//HE DOES NOT WANT US TO USE GETS BUT RATHER QUERY
+    const songTitleInput = document.getElementById('yourInputId'); //HE DOES NOT WANT US TO USE GETS BUT RATHER QUERY
     const songTitle = songTitleInput.value.trim();
 
     if (songTitle) {
@@ -389,57 +403,3 @@ function handleAddButtonClick() {
         console.log('Please enter a song title.');
     }
 }
-
-// Attach the function to the "Add" button click event (replace 'yourButtonId' with the actual button ID)
-// const addButton = document.getElementById('yourButtonId');
-// addButton.addEventListener('click', handleAddButtonClick);
-
-// Snackbar
-
-function showSnackbar() {
-   // var snackbar = document.getElementById("snackbar");
-   // snackbar
-}
-
-
-
-
-
-// const searchButton = document.querySelectorAll("asisde");
-// console.log(searchButton);
-
-
-// searchButton.addEventListener("click", function(event){
-
-
-
-// });
-// const apiData = JSON.parse(api);
-// console.log(apiData);
-
-//Add Nav bar 
-// htmlstring = "";
-// document.write(htmlstring);
-//
-
-
-
-// Implement part of the Search/Browse Songs view. 
- 
-// have the artist and genre select lists displaying the data in the provided json files
-
- 
-// display the song list (title, artist name, year, genre name, popularity) using the provided  sample-songs.json data.
-//Implement the column sort 
-
-
-
-
-
-
-
-
-
-
-
-
