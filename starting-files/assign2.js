@@ -1,4 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+    /*
+        Used hidden instead of diplay none because it would keep the bootstrap formatting.
+        Hidden keeps the elements in the html but makes the bower not compile the code. Display none completely removes elements but from the DOM.
+        If I had extra time and no other school work, I would rather recreate the whole page including its div container 
+        to ensure that the display none and flex does not wreck the formatting as well as make more of my code more genralized. A few functions of the code
+        such as adding table body content were generalized but when I started to get it mostly/fully genralized many dommino problems occured...at one point I 
+        felt like I rewrote my all my code three times and cut my losses at the last time. Also would like to see where the grey background is comming from in the 
+        credits button but because there are no refrences in the css or classLists of any grey coloring (custom or provided)
+    */
+
    //Creatomg base markup and navbar and nav bar
     baseMarkup();
     createNavBar();
@@ -1379,7 +1390,7 @@ sorter();
         const footer = document.querySelector("#footer");
         footerDiv.classList = "container";
         footerDiv.classList = "bg-primary";
-        p.innerHTML = "&copy COMP 3512 Assingment 2 - Christopher";
+        p.innerHTML = "&copy COMP 3512-001 Assignment 2 - Christopher";
         footerDiv.appendChild(span);
         footerDiv.appendChild(p);
         footer.appendChild(footerDiv);
